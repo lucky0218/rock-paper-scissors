@@ -1,2 +1,2 @@
 # rock-paper-scissors
-first image-identification project
+our first pattern-recognition project
