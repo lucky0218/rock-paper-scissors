@@ -1,18 +1,1 @@
-﻿  main.cpp
-C:\Users\13862\source\repos\scan_test0\scan_test0\main.cpp(13,35): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
-          with
-          [
-              _Tp=int
-          ]
-C:\Users\13862\source\repos\scan_test0\scan_test0\main.cpp(13,54): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
-          with
-          [
-              _Tp=int
-          ]
-C:\Users\13862\source\repos\scan_test0\scan_test0\main.cpp(13,48): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
-          with
-          [
-              _Tp=int
-          ]
-C:\Users\13862\source\repos\scan_test0\scan_test0\main.cpp(82,19): warning C4305: “初始化”: 从“double”到“float”截断
-  scan_test0.vcxproj -> C:\Users\13862\source\repos\scan_test0\x64\Debug\scan_test0.exe
+﻿  scan_test0.vcxproj -> C:\Users\13862\source\repos\scan_test0\x64\Debug\scan_test0.exe
