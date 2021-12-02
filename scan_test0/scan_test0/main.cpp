@@ -9,28 +9,28 @@ Mat ellipse_detect(Mat& src)
 {
 	Mat img = src.clone();
 	Mat skinCrCbHist = Mat::zeros(Size(256, 256), CV_8UC1);
-	//åˆ©ç”¨opencvè‡ªå¸¦çš„æ¤­åœ†ç”Ÿæˆå‡½æ•°å…ˆç”Ÿæˆä¸€ä¸ªè‚¤è‰²æ¤­åœ†æ¨¡å‹
+	//ÀûÓÃopencv×Ô´øµÄÍÖÔ²Éú³Éº¯ÊıÏÈÉú³ÉÒ»¸ö·ôÉ«ÍÖÔ²Ä£ĞÍ
 	ellipse(skinCrCbHist, Point(113, 155.6), Size(23.4, 15.2), 43.0, 0.0, 360.0, Scalar(255, 255, 255), -1);
 	Mat ycrcb_image;
 	Mat output_mask = Mat::zeros(img.size(), CV_8UC1);
-	cvtColor(img, ycrcb_image, CV_BGR2YCrCb); //é¦–å…ˆè½¬æ¢æˆåˆ°YCrCbç©ºé—´
-	for (int i = 0; i < img.cols; i++)   //åˆ©ç”¨æ¤­åœ†çš®è‚¤æ¨¡å‹è¿›è¡Œçš®è‚¤æ£€æµ‹
+	cvtColor(img, ycrcb_image, CV_BGR2YCrCb); //Ê×ÏÈ×ª»»³Éµ½YCrCb¿Õ¼ä
+	for (int i = 0; i < img.cols; i++)   //ÀûÓÃÍÖÔ²Æ¤·ôÄ£ĞÍ½øĞĞÆ¤·ô¼ì²â
 		for (int j = 0; j < img.rows; j++)
 		{
 			Vec3b ycrcb = ycrcb_image.at<Vec3b>(j, i);
-			if (skinCrCbHist.at<uchar>(ycrcb[1], ycrcb[2]) > 0)   //å¦‚æœè¯¥è½åœ¨çš®è‚¤æ¨¡å‹æ¤­åœ†åŒºåŸŸå†…ï¼Œè¯¥ç‚¹å°±æ˜¯çš®è‚¤åƒç´ ç‚¹
+			if (skinCrCbHist.at<uchar>(ycrcb[1], ycrcb[2]) > 0)   //Èç¹û¸ÃÂäÔÚÆ¤·ôÄ£ĞÍÍÖÔ²ÇøÓòÄÚ£¬¸Ãµã¾ÍÊÇÆ¤·ôÏñËØµã
 				output_mask.at<uchar>(j, i) = 255;
 		}
 
 	Mat detect;
-	img.copyTo(detect, output_mask);  //è¿”å›è‚¤è‰²å›¾
+	img.copyTo(detect, output_mask);  //·µ»Ø·ôÉ«Í¼
 	return detect;
 }
 
 Mat YCrCb_Otsu_detect(Mat& src)
 {
 	Mat ycrcb_image;
-	cvtColor(src, ycrcb_image, CV_BGR2YCrCb); //é¦–å…ˆè½¬æ¢æˆåˆ°YCrCbç©ºé—´
+	cvtColor(src, ycrcb_image, CV_BGR2YCrCb); //Ê×ÏÈ×ª»»³Éµ½YCrCb¿Õ¼ä
 	Mat detect;
 	vector<Mat> channels;
 	split(ycrcb_image, channels);
@@ -43,56 +43,56 @@ Mat YCrCb_Otsu_detect(Mat& src)
 
 Mat skinDetect(const cv::Mat& image, double minHue, double maxHue, double minSat, double maxSat)
 {
-	//åˆ›å»ºHSVå›¾åƒ
+	//´´½¨HSVÍ¼Ïñ
 	cv::Mat hsv;
 	cv::cvtColor(image, hsv, cv::COLOR_BGR2HSV);
 	std::vector<cv::Mat> channels;
 	cv::split(hsv, channels);
-	//åˆ›å»ºå¤§äºæœ€å°è‰²è°ƒçš„æ©ç 
+	//´´½¨´óÓÚ×îĞ¡É«µ÷µÄÑÚÂë
 	cv::Mat mask1;
 	cv::threshold(channels[0], mask1, minHue, 255, cv::THRESH_BINARY);
-	//åˆ›å»ºå°äºæœ€å¤§è‰²è°ƒçš„æ©ç 
+	//´´½¨Ğ¡ÓÚ×î´óÉ«µ÷µÄÑÚÂë
 	cv::Mat mask2;
 	cv::threshold(channels[0], mask2, maxHue, 255, cv::THRESH_BINARY_INV);
 
-	//åˆ›å»ºè‰²è°ƒæ©ç 
+	//´´½¨É«µ÷ÑÚÂë
 	cv::Mat hueMask;
-	//å¦‚æœè¾“å…¥çš„æœ€å°è‰²çš„å°äºæœ€å¤§è‰²è°ƒï¼Œå–äº¤
+	//Èç¹ûÊäÈëµÄ×îĞ¡É«µÄĞ¡ÓÚ×î´óÉ«µ÷£¬È¡½»
 	if (minHue < maxHue)
 	{
 		hueMask = mask1 & mask2;
 	}
-	//å¦‚æœè¾“å…¥çš„æœ€å°è‰²çš„å¤§äºæœ€å¤§è‰²è°ƒï¼Œå³æ¨ªè·¨äº†0åº¦ä¸­è½´çº¿
+	//Èç¹ûÊäÈëµÄ×îĞ¡É«µÄ´óÓÚ×î´óÉ«µ÷£¬¼´ºá¿çÁË0¶ÈÖĞÖáÏß
 	else
 	{
 		hueMask = mask1 | mask2;
 	}
 
-	//åˆ›å»ºé¥±å’Œåº¦æ©ç 
+	//´´½¨±¥ºÍ¶ÈÑÚÂë
 	cv::Mat satMask;
-	//ç”±äºé¥±å’Œåº¦æ²¡æœ‰ä¸­è½´çº¿ï¼Œç›´æ¥è°ƒç”¨cv::inRangeå‡½æ•°åˆ›å»ºäºŒå€¼å›¾å³å¯
+	//ÓÉÓÚ±¥ºÍ¶ÈÃ»ÓĞÖĞÖáÏß£¬Ö±½Óµ÷ÓÃcv::inRangeº¯Êı´´½¨¶şÖµÍ¼¼´¿É
 	cv::inRange(channels[1], minSat, maxSat, satMask);
 	return hueMask & satMask;
 }
 
 Mat change_contrast(Mat src1) {
-	int height = src1.rows;//æ±‚å‡ºsrc1çš„é«˜
-	int width = src1.cols;//æ±‚å‡ºsrc1çš„å®½
-	Mat dst = Mat::zeros(src1.size(), src1.type());  //è¿™å¥å¾ˆé‡è¦ï¼Œåˆ›å»ºä¸€ä¸ªä¸åŸå›¾ä¸€æ ·å¤§å°çš„ç©ºç™½å›¾ç‰‡              
-	float alpha = 1.4;//è°ƒæ•´å¯¹æ¯”åº¦ä¸º1.5
-	float beta = 5;//è°ƒæ•´äº®åº¦åŠ 
-	//å¾ªç¯æ“ä½œï¼Œéå†æ¯ä¸€åˆ—ï¼Œæ¯ä¸€è¡Œçš„å…ƒç´ 
+	int height = src1.rows;//Çó³ösrc1µÄ¸ß
+	int width = src1.cols;//Çó³ösrc1µÄ¿í
+	Mat dst = Mat::zeros(src1.size(), src1.type());  //Õâ¾äºÜÖØÒª£¬´´½¨Ò»¸öÓëÔ­Í¼Ò»Ñù´óĞ¡µÄ¿Õ°×Í¼Æ¬              
+	float alpha = 1.4;//µ÷Õû¶Ô±È¶ÈÎª1.5
+	float beta = 5;//µ÷ÕûÁÁ¶È¼Ó
+	//Ñ­»·²Ù×÷£¬±éÀúÃ¿Ò»ÁĞ£¬Ã¿Ò»ĞĞµÄÔªËØ
 	for (int row = 0; row < height; row++)
 	{
 		for (int col = 0; col < width; col++)
 		{
-			if (src1.channels() == 3)//åˆ¤æ–­æ˜¯å¦ä¸º3é€šé“å›¾ç‰‡
+			if (src1.channels() == 3)//ÅĞ¶ÏÊÇ·ñÎª3Í¨µÀÍ¼Æ¬
 			{
-				//å°†éå†å¾—åˆ°çš„åŸå›¾åƒç´ å€¼ï¼Œè¿”å›ç»™å˜é‡b,g,r
+				//½«±éÀúµÃµ½µÄÔ­Í¼ÏñËØÖµ£¬·µ»Ø¸ø±äÁ¿b,g,r
 				float b = src1.at<Vec3b>(row, col)[0];//nlue
 				float g = src1.at<Vec3b>(row, col)[1];//green
 				float r = src1.at<Vec3b>(row, col)[2];//red
-				//å¼€å§‹æ“ä½œåƒç´ ï¼Œå¯¹å˜é‡b,g,råšæ”¹å˜åå†è¿”å›åˆ°æ–°çš„å›¾ç‰‡ã€‚
+				//¿ªÊ¼²Ù×÷ÏñËØ£¬¶Ô±äÁ¿b,g,r×ö¸Ä±äºóÔÙ·µ»Øµ½ĞÂµÄÍ¼Æ¬¡£
 				dst.at<Vec3b>(row, col)[0] = saturate_cast<uchar>(b * alpha + beta);
 				dst.at<Vec3b>(row, col)[1] = saturate_cast<uchar>(g * alpha + beta);
 				dst.at<Vec3b>(row, col)[2] = saturate_cast<uchar>(r * alpha + beta);
@@ -108,10 +108,10 @@ int main(int argc, char** argv) {
 	Mat image = imread("./pictures/3.jpg");
 	//Mat nana = image;
 	Mat mask, img_1, img_ellipse, img_Otsu, img_processed, result;
-	//è®¾ç½®çš„è‰²è°ƒèŒƒå›´ä¸º160~15ä¹‹é—´(320~30)ï¼Œé¥±å’Œåº¦èŒƒå›´åœ¨25~180ä¹‹é—´(0.1~0.65)
+	//ÉèÖÃµÄÉ«µ÷·¶Î§Îª160~15Ö®¼ä(320~30)£¬±¥ºÍ¶È·¶Î§ÔÚ25~180Ö®¼ä(0.1~0.65)
 	mask = skinDetect(image, 160, 15, 55, 166);
 	cv::Mat detected(image.size(), CV_8UC3, cv::Scalar(0, 0, 0));
-	//é€šè¿‡copyToåŠ æ©ç çš„æ–¹æ³•å°†åŸå›¾æ‹·è´åˆ°æ£€æµ‹å›¾ä¸­
+	//Í¨¹ıcopyTo¼ÓÑÚÂëµÄ·½·¨½«Ô­Í¼¿½±´µ½¼ì²âÍ¼ÖĞ
 	image.copyTo(detected, mask);
 	img_1 = change_contrast(image);
 	if (image.empty()) {
