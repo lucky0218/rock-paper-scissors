@@ -18,7 +18,13 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="skin_identification.cpp">
+    <ClCompile Include="input_processing.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="output_debug.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pattern_identification.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
