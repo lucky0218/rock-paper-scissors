@@ -95,8 +95,8 @@ Mat change_contrast(Mat &src1) {
 	int height = src1.rows;
 	int width = src1.cols;
 	Mat dst = Mat::zeros(src1.size(), src1.type());  //这句很重要，创建一个与原图一样大小的空白图片              
-	float alpha =1.1;//调整对比度为1.1
-	float beta = 40;//调整亮度加
+	float alpha =1.2;//调整对比度为1.2
+	float beta = 50;//调整亮度加
 	
 	for (int row = 0; row < height; row++){
 		for (int col = 0; col < width; col++){
@@ -116,15 +116,18 @@ Mat change_contrast(Mat &src1) {
 	return dst;
 }
 
-double get_brightness(Mat& img) {
+double get_brightness(Mat& img,int add) {
 	//0.2126 * R + 0.7152 * G + 0.0722 * B
 	double ans = 0;
-	int height = img.rows;
-	int width = img.cols;
+	int height = img.rows, width = img.cols;
+	int tot = 0;
 	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
+		for (int j = 0; j < width; j++) {
+			tot += img.at<Vec3b>(i, j)[0] > 0;
 			ans += (img.at<Vec3b>(i, j)[0]) * 0.0722 + (img.at<Vec3b>(i, j)[1]) * 0.7152 + (img.at<Vec3b>(i, j)[2]) * 0.2126;
-	ans = ans / (double)(height * width);
+		}
+			
+	ans = ans / (double)(tot);
 	return ans;
 } 
 

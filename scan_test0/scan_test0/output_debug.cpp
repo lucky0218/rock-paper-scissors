@@ -6,7 +6,7 @@ using namespace cv;
 void print_bgr_difference(Mat& img) {
 
 	if (img.empty()) return;
-	freopen("rgb_1.txt", "w", stdout);   
+	freopen("rgb.txt", "w", stdout);   
 	cout << "图像的高和宽分别是：" << img.rows << "和" << img.cols << endl;
 	for (int i = 0; i < img.rows; i++) printf("Col %13d", i);
 	cout << endl;
@@ -26,19 +26,34 @@ void print_bgr_difference(Mat& img) {
 }
 
 void print_it(Mat& image) {
-	imwrite("./pictures/noise_processed_enhanced_ellipse_detect.jpg", image);
+	imwrite("./pictures/it.jpg", image);
 }
 void print_enhanced_ellipse_detect(Mat image) {
 	Mat output_mask = enhanced_ellipse_detect(image);
 	Mat img_eed;
 	image.copyTo(img_eed, output_mask);
+	print_processed_brightness(img_eed);
 	imwrite("./pictures/enhanced_ellipse_detect.jpg", img_eed);
 }
 
+void print_contrast_processed__ellipse_detect(Mat image) {
+	image = change_contrast(image);
+	Mat output_mask = ellipse_detect(image);
+	Mat img_eed;
+	image.copyTo(img_eed, output_mask);
+	print_processed_brightness(img_eed);
+	imwrite("./pictures/contrast_processed__ellipse_detect.jpg", img_eed);
+}
+
 void print_noise_processed_enhanced_ellipse_detect(Mat image) {
+	freopen("rgb.txt", "w", stdout);
 	Mat output_mask = enhanced_ellipse_detect(image);
 	noise_process(output_mask);
 	Mat img_eed;
 	image.copyTo(img_eed, output_mask);
 	imwrite("./pictures/noise_processed_enhanced_ellipse_detect.jpg", img_eed);
+}
+
+void print_processed_brightness(Mat& img) {
+	cout << "亮度为" << get_brightness(img)<<endl;
 }

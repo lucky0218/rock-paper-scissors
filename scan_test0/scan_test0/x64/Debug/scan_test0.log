@@ -30,8 +30,4 @@ C:\Users\13862\source\repos\scan_test0\scan_test0\input_processing.cpp(29,48): w
               _Tp=int
           ]
 C:\Users\13862\source\repos\scan_test0\scan_test0\input_processing.cpp(98,18): warning C4305: “初始化”: 从“double”到“float”截断
-  main.cpp
-  output_debug.cpp
-  pattern_identification.cpp
-  正在生成代码...
   scan_test0.vcxproj -> C:\Users\13862\source\repos\scan_test0\x64\Debug\scan_test0.exe
