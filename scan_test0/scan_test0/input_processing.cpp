@@ -40,7 +40,7 @@ Mat enhanced_ellipse_detect(Mat &src) {
 
 	for (int i = 0; i < img.cols; i++)
 		for (int j = 0; j < img.rows; j++) {
-			if (src.at<Vec3b>(j, i)[0] < 40) output_mask.at<uchar>(j, i) = 0;
+			if (src.at<Vec3b>(j, i)[0] < 60) output_mask.at<uchar>(j, i) = 0;
 		}
 
 	return output_mask;
@@ -116,7 +116,7 @@ Mat change_contrast(Mat &src1) {
 	return dst;
 }
 
-double get_brightness(Mat& img,int add) {
+double get_brightness(Mat& img) {
 	//0.2126 * R + 0.7152 * G + 0.0722 * B
 	double ans = 0;
 	int height = img.rows, width = img.cols;

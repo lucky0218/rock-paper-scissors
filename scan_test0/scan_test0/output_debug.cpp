@@ -28,6 +28,7 @@ void print_bgr_difference(Mat& img) {
 void print_it(Mat& image) {
 	imwrite("./pictures/it.jpg", image);
 }
+
 void print_enhanced_ellipse_detect(Mat image) {
 	Mat output_mask = enhanced_ellipse_detect(image);
 	Mat img_eed;
@@ -49,8 +50,11 @@ void print_noise_processed_enhanced_ellipse_detect(Mat image) {
 	freopen("rgb.txt", "w", stdout);
 	Mat output_mask = enhanced_ellipse_detect(image);
 	noise_process(output_mask);
+	cout<<"max distance:"<<max_distance() << endl;
+	cout<<"jjj"<<ave_distance_begin()<<"   "<< ave_distance_end()<<endl;
 	Mat img_eed;
 	image.copyTo(img_eed, output_mask);
+	cout << "brightness:"<<get_brightness(img_eed)<<endl;
 	imwrite("./pictures/noise_processed_enhanced_ellipse_detect.jpg", img_eed);
 }
 

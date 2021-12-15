@@ -5,7 +5,7 @@ using namespace cv;
 
 
 int main() {
-	char path[] = "./pictures/with.jpg";
+	char path[] = "./pictures/3.jpg";
 
 	Mat image = imread(path);
 	Mat mask, img_1, img_ellipse, img_Otsu, img_processed, result,output_mask;
@@ -21,8 +21,8 @@ int main() {
 		return -1;
 	}
 	image = scale_mat(image);
-	print_enhanced_ellipse_detect(image);
-	print_contrast_processed__ellipse_detect(image);
+//	print_enhanced_ellipse_detect(image);
+//	print_contrast_processed__ellipse_detect(image);
 	print_noise_processed_enhanced_ellipse_detect(image);
 
 
@@ -35,7 +35,7 @@ int main() {
 //	img_Otsu = YCrCb_Otsu_detect(img_1);
 //	img_processed = img_ellipse & img_Otsu & detected;
 
-	cout << get_brightness(image) << endl<<get_brightness(img_1);
+	//cout << get_brightness(image) << endl<<get_brightness(img_1);
 	//print_bgr_difference(img_ellipse);
 	
 	//imshow("example3_brightness_changed", img_ellipse_1);
